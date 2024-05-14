@@ -12,6 +12,9 @@ import com.psb.stockbook.domains.StockDto;
 import com.psb.stockbook.domains.StockEntity;
 import com.psb.stockbook.repositories.StockRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class StockController {
 
@@ -20,14 +23,14 @@ public class StockController {
 
     @GetMapping("/stock")
     public List<StockDto> getStock() {
-        System.out.println("get stock");
+        log.info("get stock");
 
         return stockRepository.findAll().stream().map(s -> new StockDto(s.getName())).toList();
     }
 
     @PostMapping("/stock")
     public String addStock(@RequestParam String name) {
-        System.out.println("add stock");
+        log.info("add stock, name: {}", name);
 
         stockRepository.save(new StockEntity(name));
 
