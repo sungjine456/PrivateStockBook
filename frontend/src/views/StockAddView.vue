@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import type Stock from "@/domains/Stock";
+import { StockKind, stockKindEntries } from "@/domains/Stock";
 import router from "@/router";
 import axios from "axios";
 import { ref } from "vue";
 
-const input = ref();
-const testDatas = ref([]);
+const stock = ref<Stock>({ name: "", code: "", stockKind: StockKind.ETF });
 
-const add = () => {
+const addStock = () => {
+  if (stock.value.name === "" || stock.value.code === "") {
+    // TODO 저장되지 않는 이유 사용자에게 안내하기
+    return;
+  }
+
   axios
-    .post("/api/stock", null, { params: { name: input.value } })
+    .post("/api/stock", stock.value)
     .then((res) => {
-      console.log("post stock", res);
       res.data === "Success" && router.push("/");
     })
     .catch((e) => {
@@ -21,10 +26,20 @@ const add = () => {
 
 <template>
   <div>
-    <p v-for="testData in testDatas" :key="testData">
-      {{ testData }}
-    </p>
+    <label>종류</label>
+    <select v-model="stock.stockKind">
+      <option v-for="[value, key] in stockKindEntries" :key="key" :value="key">
+        {{ value }}
+      </option>
+    </select>
   </div>
-  <input v-model="input" />
-  <button @click="add">추가</button>
+  <div>
+    <label>이름</label>
+    <input v-model="stock.name" />
+  </div>
+  <div>
+    <label>코드</label>
+    <input v-model="stock.code" />
+  </div>
+  <button @click="addStock">추가</button>
 </template>
