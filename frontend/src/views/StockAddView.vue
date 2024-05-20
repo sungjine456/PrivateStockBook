@@ -57,8 +57,8 @@ const addStock = () => {
 
 <template>
   <div>
-    <label>종류</label>
-    <select v-model="stock.stockKind">
+    <label for="kind">종류</label>
+    <select id="kind" v-model="stock.stockKind">
       <option v-for="[value, key] in stockKindEntries" :key="key" :value="key">
         {{ value }}
       </option>
@@ -66,7 +66,7 @@ const addStock = () => {
   </div>
   <div>
     <label for="name">이름</label>
-    <input id="name" v-model="stock.name" @keyup="validater('name')" />
+    <input id="name" v-model="stock.name" @keyup="validater('name')" autocomplete="off" />
   </div>
   <div class="error-box">
     <span class="error" v-show="errors.has('name')">{{ errors.get("name") }}</span>
