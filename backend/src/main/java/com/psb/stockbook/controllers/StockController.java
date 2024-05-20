@@ -32,9 +32,12 @@ public class StockController {
     public String addStock(@RequestBody StockDto stock) {
         log.info("add stock, {}", stock);
 
-        // TODO: 코드가 중복되는 경우를 대비한 코드 필요
-        stockRepository.save(new StockEntity(stock));
+        if (!stockRepository.existsByCode(stock.getCode())) {
+            stockRepository.save(new StockEntity(stock));
 
-        return "Success";
+            return "Success";
+        } else {
+            return "Failure";
+        }
     }
 }

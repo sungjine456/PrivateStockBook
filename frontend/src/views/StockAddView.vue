@@ -16,7 +16,11 @@ const addStock = () => {
   axios
     .post("/api/stock", stock.value)
     .then((res) => {
-      res.data === "Success" && router.push("/");
+      if (res.data === "Success") {
+        router.push("/");
+      } else if (res.data === "Failure") {
+        alert("코드 중복");
+      }
     })
     .catch((e) => {
       console.log("post stock err", e);

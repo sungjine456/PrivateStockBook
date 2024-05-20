@@ -6,4 +6,5 @@ import com.psb.stockbook.domains.stocks.StockEntity;
 
 public interface StockRepository extends JpaRepository<StockEntity, Long> {
 
+    public boolean existsByCode(String code);
 }
