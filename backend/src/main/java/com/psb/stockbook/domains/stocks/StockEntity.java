@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "stocks")
 @NoArgsConstructor
 public class StockEntity {
 
@@ -40,6 +40,6 @@ public class StockEntity {
     }
 
     public StockDto getDto() {
-        return new StockDto(name, code, stockKind);
+        return new StockDto(idx, name, code, stockKind);
     }
 }

@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StockDto {
 
+    private long idx;
     private String name;
     private String code;
     private StockKind stockKind;
 
     @Override
     public String toString() {
-        return String.format("name : %s, code : %s, stockKind : %s", name, code, stockKind);
+        return String.format("idx: %d, name : %s, code : %s, stockKind : %s", idx, name, code, stockKind);
     }
 }

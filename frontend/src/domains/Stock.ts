@@ -1,4 +1,5 @@
 export default interface Stock {
+  idx: number;
   name: string;
   code: string;
   stockKind: StockKind;

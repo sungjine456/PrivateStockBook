@@ -1,45 +1,55 @@
 <script setup lang="ts">
-import type Stock from "@/domains/Stock";
+import type Book from "@/domains/Book";
 import axios from "axios";
 import { ref } from "vue";
 
-const stocks = ref<Stock[]>([]);
+const books = ref<Book[]>([]);
 
 {
   axios
-    .get("/api/stock")
+    .get("/api/book")
     .then((res) => {
-      stocks.value = res.data;
+      books.value = res.data;
     })
     .catch((e) => {
-      console.log("get stock err", e);
+      console.log("get book err", e);
     });
 }
 </script>
 
 <template>
   <div class="main">
-    <RouterLink to="/stock">추가하기</RouterLink>
+    <RouterLink to="/stock">종목 추가하기</RouterLink>
+    <RouterLink to="/book">가계부에 추가하기</RouterLink>
     <table>
       <thead>
         <colgroup>
-          <col width="34%" />
-          <col width="33%" />
-          <col width="33%" />
+          <col width="25%" />
+          <col width="25%" />
+          <col width="25%" />
+          <col width="25%" />
         </colgroup>
         <tr>
           <th>이름</th>
-          <th>코드</th>
-          <th>종류</th>
+          <th>갯수</th>
+          <th>가격</th>
+          <th>구매여부</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="s in stocks" :key="s.code">
-          <td>{{ s.name }}</td>
-          <td>{{ s.code }}</td>
-          <td>{{ s.stockKind }}</td>
+        <tr v-for="b in books" :key="b.stock.code">
+          <td>{{ b.stock.name }}</td>
+          <td>{{ b.count }}</td>
+          <td>{{ b.price }}</td>
+          <td>{{ b.sellFlag }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
+
+<style scoped>
+a {
+  border: 1px solid black;
+}
+</style>

@@ -5,7 +5,7 @@ import router from "@/router";
 import axios from "axios";
 import { ref } from "vue";
 
-const stock = ref<Stock>({ name: "", code: "", stockKind: StockKind.ETF });
+const stock = ref<Stock>({ idx: 0, name: "", code: "", stockKind: StockKind.ETF });
 
 const errors = ref<Map<string, string>>(new Map<string, string>());
 
