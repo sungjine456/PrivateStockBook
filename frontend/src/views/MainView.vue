@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type Book from "@/domains/Book";
+import type Book from "@/domains/book";
 import axios from "axios";
 import { ref } from "vue";
 

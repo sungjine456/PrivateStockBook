@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type Stock from "@/domains/Stock";
-import { StockKind, stockKindEntries } from "@/domains/Stock";
+import type Stock from "@/domains/stock";
+import { StockKind, stockKindEntries } from "@/domains/stock";
 import router from "@/router";
 import axios from "axios";
 import { ref } from "vue";

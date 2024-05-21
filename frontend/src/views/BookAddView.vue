@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type Book from "@/domains/Book";
-import type Stock from "@/domains/Stock";
-import { StockKind } from "@/domains/Stock";
+import type Book from "@/domains/book";
+import type Stock from "@/domains/stock";
+import { StockKind } from "@/domains/stock";
 import router from "@/router";
 import axios from "axios";
 import { ref } from "vue";
