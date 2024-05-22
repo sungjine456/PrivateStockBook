@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import validator from "@/commons/validator";
+import validator, { type Data } from "@/commons/validator";
 import type Book from "@/domains/book";
 import type Stock from "@/domains/stock";
 import { StockKind } from "@/domains/stock";
@@ -17,11 +17,11 @@ const book = ref<Book>({
 const stocks = ref<Stock[]>([]);
 const errors = ref<Map<string, string>>(new Map<string, string>());
 
-const datas = [
-  { key: "count", msg: "개수를 입력하세요.", func: () => book.value.count > 0 },
-  { key: "price", msg: "가격을 입력하세요.", func: () => book.value.price > 0 },
-  { key: "stock", msg: "종목을 선택하세요.", func: () => book.value.stock.idx > 0 }
-];
+const datas: Map<string, Data> = new Map([
+  ["count", { msg: "개수를 입력하세요.", func: () => book.value.count > 0 }],
+  ["price", { msg: "가격을 입력하세요.", func: () => book.value.price > 0 }],
+  ["stock", { msg: "종목을 선택하세요.", func: () => book.value.stock.idx > 0 }]
+]);
 
 const { validateAll, validate } = validator(datas, errors.value);
 

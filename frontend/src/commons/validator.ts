@@ -1,37 +1,32 @@
 interface Data {
-  key: string;
   msg: string;
   func: () => boolean;
 }
 
-const validator = (datas: Data[], errors: Map<string, string>) => {
-  const dataMap: Map<string, string> = new Map();
-
-  datas.forEach((d) => {
-    dataMap.set(d.key, d.msg);
-  });
-
+const validator = (datas: Map<string, Data>, errors: Map<string, string>) => {
   const validateAll = () => {
     let result = true;
 
-    datas.forEach((d) => {
-      const r = validate(d.key);
-
-      result &&= r;
+    datas.forEach((_, k) => {
+      if (!validate(k) && result) result = false;
     });
 
     return result;
   };
 
   const validate = (key: string) => {
-    const data = datas.filter((d) => d.key === key);
+    const data = datas.get(key);
 
-    if (data.length > 0 && data[0].func()) {
+    if (!data) {
+      throw new Error("Not Exist Key.");
+    }
+
+    if (data.func()) {
       errors.delete(key);
       return true;
     }
 
-    errors.set(key, dataMap.get(key)!);
+    errors.set(key, data.msg);
     return false;
   };
 
@@ -39,3 +34,4 @@ const validator = (datas: Data[], errors: Map<string, string>) => {
 };
 
 export default validator;
+export { type Data };
