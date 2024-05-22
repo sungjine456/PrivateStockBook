@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import validator, { type Data } from "@/commons/validator";
+import ErrorMsg from "@/components/commons/validator/ErrorMsg.vue";
 import type Stock from "@/domains/stock";
 import { StockKind, stockKindEntries } from "@/domains/stock";
 import router from "@/router";
@@ -47,16 +48,12 @@ const addStock = () => {
     <label for="name">이름</label>
     <input id="name" v-model="stock.name" @keyup="validate('name')" autocomplete="off" />
   </div>
-  <div class="error-box">
-    <span class="error" v-show="errors.has('name')">{{ errors.get("name") }}</span>
-  </div>
+  <ErrorMsg :show="errors.has('name')" :msg="errors.get('name')"></ErrorMsg>
   <div>
     <label for="code">코드</label>
     <input id="code" v-model="stock.code" @keyup="validate('code')" />
   </div>
-  <div class="error-box">
-    <span class="error" v-show="errors.has('code')">{{ errors.get("code") }}</span>
-  </div>
+  <ErrorMsg :show="errors.has('code')" :msg="errors.get('code')"></ErrorMsg>
   <div>
     <button @click="addStock">추가</button>
   </div>

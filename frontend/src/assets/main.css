@@ -1,5 +1,4 @@
 @import "./base.css";
-@import "./commons/validator.scss";
 
 #app {
   display: flex;

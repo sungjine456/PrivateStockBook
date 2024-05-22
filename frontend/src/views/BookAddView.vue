@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import validator, { type Data } from "@/commons/validator";
+import ErrorMsg from "@/components/commons/validator/ErrorMsg.vue";
 import type Book from "@/domains/book";
 import type Stock from "@/domains/stock";
 import { StockKind } from "@/domains/stock";
@@ -59,23 +60,17 @@ const addBook = () => {
       </option>
     </select>
   </div>
-  <div class="error-box">
-    <span class="error" v-show="errors.has('stock')">{{ errors.get("stock") }}</span>
-  </div>
+  <ErrorMsg :show="errors.has('stock')" :msg="errors.get('stock')"></ErrorMsg>
   <div>
     <label for="count">갯수</label>
     <input id="count" type="number" v-model="book.count" @keyup="validate('count')" />
   </div>
-  <div class="error-box">
-    <span class="error" v-show="errors.has('count')">{{ errors.get("count") }}</span>
-  </div>
+  <ErrorMsg :show="errors.has('count')" :msg="errors.get('count')"></ErrorMsg>
   <div>
     <label for="price">가격</label>
     <input id="price" type="number" v-model="book.price" @keyup="validate('price')" />
   </div>
-  <div class="error-box">
-    <span class="error" v-show="errors.has('price')">{{ errors.get("price") }}</span>
-  </div>
+  <ErrorMsg :show="errors.has('price')" :msg="errors.get('price')"></ErrorMsg>
   <div>
     <label for="sell_flag">판매여부</label>
     <input id="sell_flag" type="checkbox" v-model="book.sellFlag" />
