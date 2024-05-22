@@ -1,0 +1,30 @@
+.form {
+  label {
+    display: inline-block;
+    width: 65px;
+    margin-right: 5px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+  }
+
+  select {
+    width: 180px;
+  }
+
+  input {
+    width: 180px;
+
+    &[type="checkbox"] {
+      width: fit-content;
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

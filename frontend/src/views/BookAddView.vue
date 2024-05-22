@@ -52,52 +52,32 @@ const addBook = () => {
 </script>
 
 <template>
-  <div>
-    <label for="stock">종목</label>
-    <select id="stock" v-model="book.stock" @change="validate('stock')">
-      <option v-for="s in stocks" :key="s.code" :value="s">
-        {{ s.name }}
-      </option>
-    </select>
-  </div>
-  <ErrorMsg :show="errors.has('stock')" :msg="errors.get('stock')"></ErrorMsg>
-  <div>
-    <label for="count">갯수</label>
-    <input id="count" type="number" v-model="book.count" @keyup="validate('count')" />
-  </div>
-  <ErrorMsg :show="errors.has('count')" :msg="errors.get('count')"></ErrorMsg>
-  <div>
-    <label for="price">가격</label>
-    <input id="price" type="number" v-model="book.price" @keyup="validate('price')" />
-  </div>
-  <ErrorMsg :show="errors.has('price')" :msg="errors.get('price')"></ErrorMsg>
-  <div>
-    <label for="sell_flag">판매여부</label>
-    <input id="sell_flag" type="checkbox" v-model="book.sellFlag" />
-  </div>
-  <div>
-    <button @click="addBook">추가</button>
+  <div class="form">
+    <div>
+      <label for="stock">종목</label>
+      <select id="stock" v-model="book.stock" @change="validate('stock')">
+        <option v-for="s in stocks" :key="s.code" :value="s">
+          {{ s.name }}
+        </option>
+      </select>
+    </div>
+    <ErrorMsg :show="errors.has('stock')" :msg="errors.get('stock')"></ErrorMsg>
+    <div>
+      <label for="count">갯수</label>
+      <input id="count" type="number" v-model="book.count" @keyup="validate('count')" />
+    </div>
+    <ErrorMsg :show="errors.has('count')" :msg="errors.get('count')"></ErrorMsg>
+    <div>
+      <label for="price">가격</label>
+      <input id="price" type="number" v-model="book.price" @keyup="validate('price')" />
+    </div>
+    <ErrorMsg :show="errors.has('price')" :msg="errors.get('price')"></ErrorMsg>
+    <div>
+      <label for="sell_flag">판매여부</label>
+      <input id="sell_flag" type="checkbox" v-model="book.sellFlag" />
+    </div>
+    <div class="buttons">
+      <button @click="addBook">추가</button>
+    </div>
   </div>
 </template>
-
-<style scoped>
-label {
-  margin-right: 5px;
-}
-
-button {
-  float: right;
-  margin-top: 5px;
-}
-
-input,
-select {
-  width: 180px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-</style>

@@ -36,41 +36,27 @@ const addStock = () => {
 </script>
 
 <template>
-  <div>
-    <label for="kind">종류</label>
-    <select id="kind" v-model="stock.stockKind">
-      <option v-for="[value, key] in stockKindEntries" :key="key" :value="key">
-        {{ value }}
-      </option>
-    </select>
-  </div>
-  <div>
-    <label for="name">이름</label>
-    <input id="name" v-model="stock.name" @keyup="validate('name')" autocomplete="off" />
-  </div>
-  <ErrorMsg :show="errors.has('name')" :msg="errors.get('name')"></ErrorMsg>
-  <div>
-    <label for="code">코드</label>
-    <input id="code" v-model="stock.code" @keyup="validate('code')" />
-  </div>
-  <ErrorMsg :show="errors.has('code')" :msg="errors.get('code')"></ErrorMsg>
-  <div>
-    <button @click="addStock">추가</button>
+  <div class="form">
+    <div>
+      <label for="kind">종류</label>
+      <select id="kind" v-model="stock.stockKind">
+        <option v-for="[value, key] in stockKindEntries" :key="key" :value="key">
+          {{ value }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <label for="name">이름</label>
+      <input id="name" v-model="stock.name" @keyup="validate('name')" autocomplete="off" />
+    </div>
+    <ErrorMsg :show="errors.has('name')" :msg="errors.get('name')"></ErrorMsg>
+    <div>
+      <label for="code">코드</label>
+      <input id="code" v-model="stock.code" @keyup="validate('code')" />
+    </div>
+    <ErrorMsg :show="errors.has('code')" :msg="errors.get('code')"></ErrorMsg>
+    <div class="buttons">
+      <button @click="addStock">추가</button>
+    </div>
   </div>
 </template>
-
-<style scoped>
-label {
-  margin-right: 5px;
-}
-
-button {
-  float: right;
-  margin-top: 5px;
-}
-
-input,
-select {
-  width: 180px;
-}
-</style>
