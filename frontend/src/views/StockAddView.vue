@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import validator from "@/commons/validator";
 import type Stock from "@/domains/stock";
 import { StockKind, stockKindEntries } from "@/domains/stock";
 import router from "@/router";
@@ -6,39 +7,17 @@ import axios from "axios";
 import { ref } from "vue";
 
 const stock = ref<Stock>({ idx: 0, name: "", code: "", stockKind: StockKind.ETF });
-
 const errors = ref<Map<string, string>>(new Map<string, string>());
 
-const validaters = () => {
-  const name = validater("name");
-  const code = validater("code");
+const datas = [
+  { key: "name", msg: "이름이 없습니다.", func: () => !!stock.value.name },
+  { key: "code", msg: "코드가 없습니다.", func: () => !!stock.value.code }
+];
 
-  return name && code;
-};
-
-const validater = (type: string) => {
-  let value = "";
-  let msg = "";
-
-  if (type === "name") {
-    value = stock.value.name;
-    msg = "이름이 없습니다.";
-  } else if (type === "code") {
-    value = stock.value.code;
-    msg = "코드가 없습니다.";
-  }
-
-  if (value === "") {
-    errors.value.set(type, msg);
-    return false;
-  } else {
-    errors.value.delete(type);
-    return true;
-  }
-};
+const { validateAll, validate } = validator(datas, errors.value);
 
 const addStock = () => {
-  if (!validaters()) return;
+  if (!validateAll()) return;
 
   axios
     .post("/api/stock", stock.value)
@@ -66,14 +45,14 @@ const addStock = () => {
   </div>
   <div>
     <label for="name">이름</label>
-    <input id="name" v-model="stock.name" @keyup="validater('name')" autocomplete="off" />
+    <input id="name" v-model="stock.name" @keyup="validate('name')" autocomplete="off" />
   </div>
   <div class="error-box">
     <span class="error" v-show="errors.has('name')">{{ errors.get("name") }}</span>
   </div>
   <div>
     <label for="code">코드</label>
-    <input id="code" v-model="stock.code" @keyup="validater('code')" />
+    <input id="code" v-model="stock.code" @keyup="validate('code')" />
   </div>
   <div class="error-box">
     <span class="error" v-show="errors.has('code')">{{ errors.get("code") }}</span>
@@ -96,18 +75,5 @@ button {
 input,
 select {
   width: 180px;
-}
-
-.error-box {
-  text-align: end;
-  height: 10px;
-  font-size: 10px;
-  line-height: 1;
-  margin-top: 2px;
-}
-
-.error {
-  color: red;
-  margin-left: 5px;
 }
 </style>

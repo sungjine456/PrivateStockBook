@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import validator from "@/commons/validator";
 import type Book from "@/domains/book";
 import type Stock from "@/domains/stock";
 import { StockKind } from "@/domains/stock";
@@ -14,8 +15,15 @@ const book = ref<Book>({
 });
 
 const stocks = ref<Stock[]>([]);
-
 const errors = ref<Map<string, string>>(new Map<string, string>());
+
+const datas = [
+  { key: "count", msg: "개수를 입력하세요.", func: () => book.value.count > 0 },
+  { key: "price", msg: "가격을 입력하세요.", func: () => book.value.price > 0 },
+  { key: "stock", msg: "종목을 선택하세요.", func: () => book.value.stock.idx > 0 }
+];
+
+const { validateAll, validate } = validator(datas, errors.value);
 
 axios
   .get("/api/stock")
@@ -26,40 +34,8 @@ axios
     console.log("get stock err", e);
   });
 
-const validaters = () => {
-  const stock = validater("stock");
-  const count = validater("count");
-  const price = validater("price");
-
-  return stock && count && price;
-};
-
-const validater = (type: string) => {
-  let value = 0;
-  let msg = "";
-
-  if (type === "count") {
-    value = book.value.count;
-    msg = "개수를 입력하세요.";
-  } else if (type === "price") {
-    value = book.value.price;
-    msg = "가격을 입력하세요.";
-  } else if (type === "stock") {
-    value = book.value.stock.idx;
-    msg = "종목을 선택하세요.";
-  }
-
-  if (!value) {
-    errors.value.set(type, msg);
-    return false;
-  } else {
-    errors.value.delete(type);
-    return true;
-  }
-};
-
 const addBook = () => {
-  if (!validaters()) return;
+  if (!validateAll()) return;
 
   axios
     .post("/api/book", book.value)
@@ -77,7 +53,7 @@ const addBook = () => {
 <template>
   <div>
     <label for="stock">종목</label>
-    <select id="stock" v-model="book.stock" @change="validater('stock')">
+    <select id="stock" v-model="book.stock" @change="validate('stock')">
       <option v-for="s in stocks" :key="s.code" :value="s">
         {{ s.name }}
       </option>
@@ -88,14 +64,14 @@ const addBook = () => {
   </div>
   <div>
     <label for="count">갯수</label>
-    <input id="count" v-model="book.count" @keyup="validater('count')" />
+    <input id="count" type="number" v-model="book.count" @keyup="validate('count')" />
   </div>
   <div class="error-box">
     <span class="error" v-show="errors.has('count')">{{ errors.get("count") }}</span>
   </div>
   <div>
     <label for="price">가격</label>
-    <input id="price" v-model="book.price" @keyup="validater('price')" />
+    <input id="price" type="number" v-model="book.price" @keyup="validate('price')" />
   </div>
   <div class="error-box">
     <span class="error" v-show="errors.has('price')">{{ errors.get("price") }}</span>
@@ -124,16 +100,9 @@ select {
   width: 180px;
 }
 
-.error-box {
-  text-align: end;
-  height: 10px;
-  font-size: 10px;
-  line-height: 1;
-  margin-top: 2px;
-}
-
-.error {
-  color: red;
-  margin-left: 5px;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
